@@ -25,7 +25,7 @@ CREATE TABLE MuseumBranch(
 
     contactName varchar(50),
     contactPhone varchar(15),
-    contactEmail varchar(15),
+    contactEmail varchar(50),
 
     street varchar(30),
     city varchar(30),
@@ -48,8 +48,8 @@ CREATE TABLE Exhibits(
     galleryID int NOT NULL,
     name varchar(50),
     description text,
-    cateStart DATETIME NOT NULL,
-    dateEnd DATETIME NOT NULL,
+    dateStart DATETIME NOT NULL,
+    dateEnd DATETIME,
     FOREIGN KEY (galleryID) REFERENCES Galleries (galleryID)
 );
 
@@ -66,7 +66,7 @@ CREATE TABLE Donors(
     street varchar(30),
     city varchar(30),
     state varchar(2),
-    zip varchar(6)
+    zip varchar(10)
 );
 
 CREATE TABLE ArtifactRequest(
@@ -84,17 +84,14 @@ CREATE TABLE ArtifactRequest(
 
 CREATE TABLE ExpansionProject(
     projectID int PRIMARY KEY,
-    affectedGalleryID int NOT NULL ,
     headedByBranchID int NOT NULL ,
     description text,
     status ENUM('pending', 'approved', 'denied', 'ongoing') NOT NULL,
     costDollarAmount int,
-    costCentAmount int,
     contactName varchar(50),
     contactPhone varchar(15),
-    contactEmail varchar(15),
+    contactEmail varchar(50),
 
-    FOREIGN KEY (affectedGalleryID) REFERENCES Galleries (galleryID),
     FOREIGN KEY (headedByBranchID) REFERENCES MuseumBranch (branchID)
 
 );
@@ -112,10 +109,10 @@ CREATE TABLE Artifact(
     artistID int,
     name varchar(50) NOT NULL ,
     description text,
-    imageURL varchar(200),
+    imageURL text,
     artifactCondition ENUM('pristine', 'good', 'fair', 'poor', 'requires restoration'),
     style varchar(50),
-    createdDate DATE,
+    createdYear int,
     medium varchar(50),
     archivedByEmployeeID int NOT NULL ,
     displayedInExhibitID int,
